@@ -7,30 +7,29 @@ const Button = ({ action, text }) => <button onClick={action}>{text}</button>
 const Counters = ({ text, counter }) => <p>{text} {counter}</p>
 
 const App = () => {
-    const [feedbackValues, setFeedback] = useState({
-        good: 0,
-        neutral: 0,
-        bad: 0
-    })
+    const [feedbackGood, setFeedbackGood] = useState(0)
+    const [feedbackNeutral, setFeedbackNeutral] = useState(0)
+    const [feedbackBad, setFeedbackBad] = useState(0)
 
-    const changeFeedback = (value) => {
-        const newFeedback = {
-            ...feedbackValues,
-        }
-        newFeedback[value] += 1
-        return () => setFeedback(newFeedback)
+    const changeFeedbackGood = () => {
+        setFeedbackGood(feedbackGood + 1)
     }
-
+    const changeFeedbackNeutral = () => {
+        setFeedbackNeutral(feedbackNeutral + 1)
+    }
+    const changeFeedbackBad = () => {
+        setFeedbackBad(feedbackBad + 1)
+    }
     return (
         <>
             <Heading text="Give Feedback" />
-            <Button action={changeFeedback("good")} text="good" />
-            <Button action={changeFeedback("neutral")} text="neutral" />
-            <Button action={changeFeedback("bad")} text="bad" />
+            <Button action={changeFeedbackGood} text="good" />
+            <Button action={changeFeedbackNeutral} text="neutral" />
+            <Button action={changeFeedbackBad} text="bad" />
             <Heading text="Statistics" />
-            <Counters text="good: " counter={feedbackValues.good} />
-            <Counters text="neutral: " counter={feedbackValues.neutral} />
-            <Counters text="bad: " counter={feedbackValues.bad} />
+            <Counters text="good: " counter={feedbackGood} />
+            <Counters text="neutral: " counter={feedbackNeutral} />
+            <Counters text="bad: " counter={feedbackBad} />
         </>
     )
 }

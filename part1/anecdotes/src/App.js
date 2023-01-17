@@ -23,8 +23,8 @@ const App = () => {
   }
   return (
     <div>
+      <h1>{anecdotes[selected]}</h1>
       <button onClick={getRandom}>Get random quote</button>
-      <p>{anecdotes[selected]}</p>
     </div>
   )
 }

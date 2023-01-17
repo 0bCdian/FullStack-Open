@@ -13,8 +13,9 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well.'
   ]
+
   const votes = new Uint8Array(anecdotes.length);
-  console.log(votes)
+
   const [selected, setSelected] = useState({
     quoteIndex: 0,
     quoteVotes: votes
@@ -41,12 +42,25 @@ const App = () => {
     setSelected(newSelected)
   }
 
+  const getMostVoted = () => {
+    const mostVoted = Math.max(...selected.quoteVotes)
+    const isMostVoted = (element) => element === mostVoted
+    const mostVotedIndex = selected.quoteVotes.findIndex(isMostVoted)
+    return mostVotedIndex
+  }
+
+  const mostVotedQuote = anecdotes[getMostVoted()]
+
   return (
     <div>
       <h3>{anecdotes[selected.quoteIndex]}</h3>
       <p>Has {selected.quoteVotes[selected.quoteIndex]} votes</p>
       <button onClick={getRandom}>Next quote</button>
       <button onClick={voteQuote}>Vote</button>
+      <div>
+        <h4>Anecdote with most votes</h4>
+        <p>{mostVotedQuote}</p>
+      </div>
     </div>
   )
 }

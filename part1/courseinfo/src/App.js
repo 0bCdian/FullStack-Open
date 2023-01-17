@@ -4,7 +4,15 @@ const Heading = ({ text }) => <h2>{text}</h2>
 
 const Button = ({ action, text }) => <button onClick={action}>{text}</button>
 
-const StatisticsLine = ({ text, statistic }) => <p>{text} {statistic}</p>
+const StatisticsLine = ({ text, statistic }) => {
+    return (
+        <tr>
+            <td>{text}</td>
+            <td>{statistic}</td>
+        </tr>
+
+    )
+}
 
 const Statistics = ({ all, average, positive, good, bad, neutral }) => {
 
@@ -16,14 +24,14 @@ const Statistics = ({ all, average, positive, good, bad, neutral }) => {
         )
     }
     return (
-        <div>
+        <table>
             <StatisticsLine text="Good" statistic={good} />
             <StatisticsLine text="Neutral" statistic={neutral} />
             <StatisticsLine text="Bad" statistic={bad} />
             <StatisticsLine text="All" statistic={all} />
             <StatisticsLine text="Average" statistic={average} />
             <StatisticsLine text="Positive" statistic={positive} />
-        </div>
+        </table>
     )
 }
 

@@ -4,6 +4,8 @@ const Heading = ({ text }) => <h2>{text}</h2>
 
 const Button = ({ action, text }) => <button onClick={action}>{text}</button>
 
+const StatisticsLine = ({ text, statistic }) => <p>{text} {statistic}</p>
+
 const Statistics = ({ all, average, positive, good, bad, neutral }) => {
 
     if (all === 0) {
@@ -15,12 +17,12 @@ const Statistics = ({ all, average, positive, good, bad, neutral }) => {
     }
     return (
         <div>
-            <p>Good {good}</p>
-            <p>Bad {bad}</p>
-            <p>Neutral {neutral}</p>
-            <p>All {all}</p>
-            <p>Average {average}</p>
-            <p>Positive {positive}</p>
+            <StatisticsLine text="Good" statistic={good} />
+            <StatisticsLine text="Neutral" statistic={neutral} />
+            <StatisticsLine text="Bad" statistic={bad} />
+            <StatisticsLine text="All" statistic={all} />
+            <StatisticsLine text="Average" statistic={average} />
+            <StatisticsLine text="Positive" statistic={positive} />
         </div>
     )
 }
@@ -41,8 +43,8 @@ const App = () => {
     }
     const all = (feedbackBad + feedbackGood + feedbackNeutral)
     let average = (feedbackGood - feedbackBad) / all
-    average = average >= 0 ? average : 0;
-    const postiveFeedback = (feedbackGood / all) * 100
+    average = average >= 0 ? average + " %" : 0 + " %";
+    const postiveFeedback = ((feedbackGood / all) * 100) + " %"
     return (
         <>
             <Heading text="Give Feedback" />

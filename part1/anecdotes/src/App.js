@@ -13,18 +13,40 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well.'
   ]
+  const votes = new Uint8Array(anecdotes.length);
+  console.log(votes)
+  const [selected, setSelected] = useState({
+    quoteIndex: 0,
+    quoteVotes: votes
+  })
 
-  const [selected, setSelected] = useState(0)
   const getRandom = () => {
     const lengthArr = anecdotes.length
     let random = Math.floor(Math.random() * lengthArr)
-    random !== selected ? setSelected(random) : random = (Math.floor(Math.random() * lengthArr))
-    setSelected(random)
+    while (random === selected.quoteIndex) {
+      random = Math.floor(Math.random() * lengthArr)
+    }
+    const newSelected = {
+      ...selected,
+      quoteIndex: random
+    }
+    setSelected(newSelected)
   }
+
+  const voteQuote = () => {
+    const newSelected = {
+      ...selected,
+    }
+    newSelected.quoteVotes[selected.quoteIndex] += 1
+    setSelected(newSelected)
+  }
+
   return (
     <div>
-      <h1>{anecdotes[selected]}</h1>
-      <button onClick={getRandom}>Get random quote</button>
+      <h3>{anecdotes[selected.quoteIndex]}</h3>
+      <p>Has {selected.quoteVotes[selected.quoteIndex]} votes</p>
+      <button onClick={getRandom}>Next quote</button>
+      <button onClick={voteQuote}>Vote</button>
     </div>
   )
 }

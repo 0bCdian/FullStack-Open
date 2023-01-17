@@ -20,6 +20,10 @@ const App = () => {
     const changeFeedbackBad = () => {
         setFeedbackBad(feedbackBad + 1)
     }
+    const all = (feedbackBad + feedbackGood + feedbackNeutral)
+    let average = (feedbackGood - feedbackBad) / all
+    average = average >= 0 ? average : 0;
+    const postiveFeedback = (feedbackGood / all) * 100
     return (
         <>
             <Heading text="Give Feedback" />
@@ -30,6 +34,9 @@ const App = () => {
             <Counters text="good: " counter={feedbackGood} />
             <Counters text="neutral: " counter={feedbackNeutral} />
             <Counters text="bad: " counter={feedbackBad} />
+            <Counters text="All " counter={all} />
+            <Counters text="Average " counter={average} />
+            <Counters text="Positive " counter={postiveFeedback} />
         </>
     )
 }

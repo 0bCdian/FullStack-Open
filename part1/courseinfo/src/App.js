@@ -4,11 +4,20 @@ const Heading = ({ text }) => <h2>{text}</h2>
 
 const Button = ({ action, text }) => <button onClick={action}>{text}</button>
 
-const Counters = ({ text, counter }) => <p>{text} {counter}</p>
+const Statistics = ({ all, average, positive, good, bad, neutral }) => {
 
-const Statistics = ({ all, average, positive }) => {
+    if (all === 0) {
+        return (
+            <div>
+                <p>No feedback given</p>
+            </div>
+        )
+    }
     return (
         <div>
+            <p>Good {good}</p>
+            <p>Bad {bad}</p>
+            <p>Neutral {neutral}</p>
             <p>All {all}</p>
             <p>Average {average}</p>
             <p>Positive {positive}</p>
@@ -41,10 +50,7 @@ const App = () => {
             <Button action={changeFeedbackNeutral} text="neutral" />
             <Button action={changeFeedbackBad} text="bad" />
             <Heading text="Statistics" />
-            <Counters text="good: " counter={feedbackGood} />
-            <Counters text="neutral: " counter={feedbackNeutral} />
-            <Counters text="bad: " counter={feedbackBad} />
-            <Statistics all={all} average={average} positive={postiveFeedback} />
+            <Statistics all={all} average={average} positive={postiveFeedback} good={feedbackGood} neutral={feedbackNeutral} bad={feedbackBad} />
         </>
     )
 }

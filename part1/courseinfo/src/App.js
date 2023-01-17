@@ -6,6 +6,16 @@ const Button = ({ action, text }) => <button onClick={action}>{text}</button>
 
 const Counters = ({ text, counter }) => <p>{text} {counter}</p>
 
+const Statistics = ({ all, average, positive }) => {
+    return (
+        <div>
+            <p>All {all}</p>
+            <p>Average {average}</p>
+            <p>Positive {positive}</p>
+        </div>
+    )
+}
+
 const App = () => {
     const [feedbackGood, setFeedbackGood] = useState(0)
     const [feedbackNeutral, setFeedbackNeutral] = useState(0)
@@ -34,9 +44,7 @@ const App = () => {
             <Counters text="good: " counter={feedbackGood} />
             <Counters text="neutral: " counter={feedbackNeutral} />
             <Counters text="bad: " counter={feedbackBad} />
-            <Counters text="All " counter={all} />
-            <Counters text="Average " counter={average} />
-            <Counters text="Positive " counter={postiveFeedback} />
+            <Statistics all={all} average={average} positive={postiveFeedback} />
         </>
     )
 }

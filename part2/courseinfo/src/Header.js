@@ -1,1 +1,1 @@
-export const Header = ({ headerName }) => <h1>{headerName}</h1>
+export const Header = ({ headerName }) => <h2>{headerName}</h2>

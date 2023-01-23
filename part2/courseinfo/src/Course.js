@@ -1,6 +1,5 @@
-import { Part } from "./Part"
 import { Header } from "./Header"
-
+import { Content } from "./Content"
 
 export const Course = ({ course }) => {
     const { name, parts } = course
@@ -8,10 +7,7 @@ export const Course = ({ course }) => {
     return (
         <div>
             <Header headerName={name} />
-            {parts.map((part) => {
-                return <Part key={part.id} partName={part.name} numberExercises={part.exercises} />
-            })}
-
+            <Content parts={parts} />
         </div>
     )
 }

@@ -12,12 +12,23 @@ const App = () => {
     const name = e.target.value;
     setNewName(name)
   }
-
+  const checkDuplicates = (personsArray, name) => {
+    const results = personsArray.filter((person) => person.name === name)
+    return results.length > 0
+  }
   const handleSubmit = (e) => {
     e.preventDefault()
-    const newPersons = [...persons, { name: newName }]
-    setPersons(newPersons)
+    if (!checkDuplicates(persons, newName)) {
+      const newPersons = [...persons, { name: newName }]
+      setPersons(newPersons)
+    }
+    else {
+      alert(`${newName} is already added to phonebook`)
+    }
   }
+
+
+
 
   return (
     <div>

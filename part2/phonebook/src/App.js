@@ -1,22 +1,29 @@
 import { useState } from 'react'
 
 const App = () => {
-
+  // set states
   const [persons, setPersons] = useState([
     {
       name: 'Arto Hellas',
-      number: '123-456'
+      number: '123-456',
+      id: 1
     }
   ])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [newSearch, setNewSearch] = useState('')
 
-  // Helper function 
+  // Helper functions
   const checkDuplicates = (personsArray, name) => {
     const results = personsArray.filter((person) => person.name === name)
     return results.length > 0
   }
 
+  // eventHandlers
+  const handleChangeSearch = (e) => {
+    const search = e.target.value;
+    setNewSearch(search)
+  }
 
   const handleChangeName = (e) => {
     const name = e.target.value;
@@ -31,7 +38,7 @@ const App = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (!checkDuplicates(persons, newName)) {
-      const newPersons = [...persons, { name: newName, number: newNumber }]
+      const newPersons = [...persons, { name: newName, number: newNumber, id: persons.length + 1 }]
       setPersons(newPersons)
     }
     else {
@@ -45,6 +52,10 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <div>
+        filter shown with: <input onChange={handleChangeSearch} />
+      </div>
+      <div> <h2>Add a new</h2></div>
       <form onSubmit={handleSubmit} >
         <div>
           name: <input onChange={handleChangeName} />
@@ -55,11 +66,13 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map((person) => {
-        return (
-          <p key={person.name}>{person.name} {person.number}</p>
-        )
-      })}
+      {persons
+        .filter((person) => person.name.toLowerCase().includes(newSearch.toLowerCase()))
+        .map((person) => {
+          return (
+            <p key={person.id}>{person.name} {person.number}</p>
+          )
+        })}
     </div>
   )
 }

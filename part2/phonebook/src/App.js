@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { PersonForm } from './PersonForm'
 import { Filter } from './Filter'
 import { Contacts } from './Contacts'
-
+import { useEffect } from 'react'
 
 const App = () => {
   // set states
@@ -22,7 +22,11 @@ const App = () => {
     const results = personsArray.filter((person) => person.name === name)
     return results.length > 0
   }
-
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/posts')
+      .then((response) => response.json())
+      .then((json) => console.log(json))
+  }, []) 
   // eventHandlers
   const handleChangeSearch = (e) => {
     const search = e.target.value;

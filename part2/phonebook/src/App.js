@@ -3,30 +3,32 @@ import { PersonForm } from './PersonForm'
 import { Filter } from './Filter'
 import { Contacts } from './Contacts'
 import { useEffect } from 'react'
+import axios from 'axios'
 
 const App = () => {
   // set states
-  const [persons, setPersons] = useState([
-    {
-      name: 'Arto Hellas',
-      number: '123-456',
-      id: 1
-    }
-  ])
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newSearch, setNewSearch] = useState('')
+
+
+  useEffect( () =>{
+    console.log('Start effect callback!')
+    
+    const eventHandler = response => {
+      console.log('promise fulfilled')
+      setPersons(response.data)
+    } 
+    axios.get('http://localhost:3001/persons') 
+    .then(eventHandler)
+  }, [])
 
   // Helper functions
   const checkDuplicates = (personsArray, name) => {
     const results = personsArray.filter((person) => person.name === name)
     return results.length > 0
   }
-  useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/posts')
-      .then((response) => response.json())
-      .then((json) => console.log(json))
-  }, []) 
   // eventHandlers
   const handleChangeSearch = (e) => {
     const search = e.target.value;

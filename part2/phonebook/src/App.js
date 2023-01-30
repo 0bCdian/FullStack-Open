@@ -3,7 +3,7 @@ import { PersonForm } from './PersonForm'
 import { Filter } from './Filter'
 import { Contacts } from './Contacts'
 import { useEffect } from 'react'
-import axios from 'axios'
+import { getAllPersons , createPerson} from './services/phonebook'
 
 const App = () => {
   // set states
@@ -14,14 +14,10 @@ const App = () => {
 
 
   useEffect( () =>{
-    console.log('Start effect callback!')
+    getAllPersons().then(response => response.data).then((data)=>{
+      setPersons(data)
+    })
     
-    const eventHandler = response => {
-      console.log('promise fulfilled')
-      setPersons(response.data)
-    } 
-    axios.get('http://localhost:3001/persons') 
-    .then(eventHandler)
   }, [])
 
   // Helper functions
@@ -48,7 +44,9 @@ const App = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (!checkDuplicates(persons, newName)) {
-      const newPersons = [...persons, { name: newName, number: newNumber, id: persons.length + 1 }]
+      const newPerson = { name: newName, number: newNumber, id: persons.length + 1 }
+      createPerson(newPerson).then(response => console.log(response))
+      const newPersons = [...persons, newPerson]
       setPersons(newPersons)
     }
     else {

@@ -3,7 +3,7 @@ import { PersonForm } from './PersonForm'
 import { Filter } from './Filter'
 import { Contacts } from './Contacts'
 import { useEffect } from 'react'
-import { getAllPersons , createPerson} from './services/phonebook'
+import { getAllPersons , createPerson, deletePerson, updatePerson} from './services/phonebook'
 
 const App = () => {
   // set states
@@ -41,18 +41,35 @@ const App = () => {
     setNewNumber(number)
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (!checkDuplicates(persons, newName)) {
-      const newPerson = { name: newName, number: newNumber, id: persons.length + 1 }
-      createPerson(newPerson).then(response => console.log(response))
-      const newPersons = [...persons, newPerson]
-      setPersons(newPersons)
-    }
-    else {
-      alert(`${newName} is already added to phonebook`)
+  const handleDeletion = (e) => {
+    const id = e.target.id
+    const name = e.target.name
+    if (window.confirm(`Delete ${name}?`)){
+      deletePerson(id)
     }
   }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    // add new user
+    if (!checkDuplicates(persons, newName)) {
+      const newPerson = { name: newName, number: newNumber, id: persons.length + 1 }
+      createPerson(newPerson)
+      const newPersons = [...persons, newPerson]
+      setPersons(newPersons)
+      return null
+    }
+    // update user's phone if it already exists
+    if (window.confirm(`${newName} is already in the phonebook, do you want to replace the number?`)) {
+      const person = persons.filter((element) => element.name === newName)
+      const newPersonData = { name: newName, number: newNumber, id: person[0].id }
+      updatePerson(person[0].id, newPersonData)
+      return
+    }
+    else {
+      return null
+    }
+}
 
   return (
     <div>
@@ -61,9 +78,10 @@ const App = () => {
       <h3>Add a new</h3>
       <PersonForm handleSubmit={handleSubmit} handleChangeName={handleChangeName} handleChangeNumber={handleChangeNumber} />
       <h3>Numbers</h3>
-      <Contacts persons={persons} newSearch={newSearch} />
+      <Contacts persons={persons} newSearch={newSearch} handleDeletion={handleDeletion}/>
     </div>
   )
+
 }
 
 export default App

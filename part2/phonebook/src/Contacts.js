@@ -1,4 +1,4 @@
-export const Contacts = ({ persons, newSearch, }) => {
+export const Contacts = ({ persons, newSearch, handleDeletion}) => {
     return (
         <div>
             
@@ -7,7 +7,9 @@ export const Contacts = ({ persons, newSearch, }) => {
                     .filter((person) => person.name.toLowerCase().includes(newSearch.toLowerCase()))
                     .map((person) => {
                         return (
-                            <p key={person.id}>{person.name} {person.number}</p>
+                            <p key={person.id}>{person.name} {person.number} <button id={person.id} name={person.name} onClick={handleDeletion}>delete</button>
+                           </p>
+                            
                         )
                     })
             }
